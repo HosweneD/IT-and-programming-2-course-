@@ -1,13 +1,20 @@
-public class Task9 {
+import java.util.Scanner;
 
-    public static int ticketSaler(int ticketCount, int ticketPrice) {
-        double commission = 0.28;
-        return (int)(ticketCount * ticketPrice * (1 - commission));
+public class Task9 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int num = scanner.nextInt();
+        System.out.println(isPrime(num));
+
+        scanner.close();
     }
 
-    public static void main(String[] args) {
-        System.out.println(ticketSaler(70, 1500));
-        System.out.println(ticketSaler(24, 950));
-        System.out.println(ticketSaler(53, 1250));
+    public static boolean isPrime(int n) {
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }

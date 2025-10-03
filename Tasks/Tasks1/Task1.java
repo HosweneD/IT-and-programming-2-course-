@@ -1,11 +1,15 @@
-public class Task1 {
-    public static void main(String[] args) {
-        System.out.println(convert(5));
-        System.out.println(convert(3));
-        System.out.println(convert(8));
-    }
+import java.util.Scanner;
 
-    public static float convert(int gallons) {
-        return (float)((float)gallons * 3.785);
+public class Task1 {
+    public static int toFahrenheit(int celsius) {
+        return celsius * 9 / 5 + 32;
+    }
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int celsius = scanner.nextInt();
+        System.out.println(toFahrenheit(celsius));
+
+        scanner.close();
     }
 }

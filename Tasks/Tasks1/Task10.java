@@ -1,18 +1,19 @@
-public class Task10 {
+import java.util.Scanner;
 
-    public static int tables(int students, int desks) {
-        int requiredDesks = (students + 1) / 2;
-        
-        if (requiredDesks - desks > 0) {
-            return requiredDesks - desks;
-        } else {
-            return 0;
-        }
+public class Task10 {
+    public static String season(int month) {
+        if (month == 12 || month == 1 || month == 2) return "зима";
+        if (month >= 3 && month <= 5) return "весна";
+        if (month >= 6 && month <= 8) return "лето";
+        if (month >= 9 && month <= 11) return "осень";
+        return "Некорректный ввод";
     }
 
     public static void main(String[] args) {
-        System.out.println(tables(5, 2));
-        System.out.println(tables(31, 20));
-        System.out.println(tables(123, 58));
+        Scanner scanner = new Scanner(System.in);
+        int month = scanner.nextInt();
+        System.out.println(season(month));
+
+        scanner.close();
     }
 }
