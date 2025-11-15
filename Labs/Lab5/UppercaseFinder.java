@@ -6,7 +6,7 @@ public class UppercaseFinder {
         Pattern pattern = Pattern.compile("([a-z])([A-Z])");
         Matcher matcher = pattern.matcher(text);
 
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
 
         while (matcher.find()) {
             String replacement = "!" + matcher.group() + "!";
