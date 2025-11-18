@@ -1,80 +1,83 @@
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Objects;
 
 public class HashTable<K, V> {
-    private static final int DEFAULT_CAPACITY = 16;
-
-    @SuppressWarnings("unchecked")
-    private LinkedList<Entry<K, V>>[] table = (LinkedList<Entry<K, V>>[]) new LinkedList[DEFAULT_CAPACITY];
-
-    private int size = 0;
-
+    private LinkedList<Entry<K, V>>[] table;
+    private int size;
+    
     private static class Entry<K, V> {
         K key;
         V value;
-        Entry(K k, V v) { key = k; value = v; }
+        
+        Entry(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+        
+        public K getKey() { return key; }
+        public V getValue() { return value; }
+        public void setValue(V value) { this.value = value; }
     }
-
-    private int indexFor(K key) {
-        return (Objects.hashCode(key) & 0x7fffffff) % table.length;
+    
+    @SuppressWarnings("unchecked")
+    public HashTable(int capacity) {
+        table = new LinkedList[capacity];
+        size = 0;
     }
-
-    // Добавляет пару key->value или обновляет существующую
+    
+    private int hash(K key) {
+        return Math.abs(key.hashCode()) % table.length;
+    }
+    
     public void put(K key, V value) {
-        int idx = indexFor(key);
-        if (table[idx] == null) table[idx] = new LinkedList<>();
-        for (Entry<K, V> e : table[idx]) {
-            if (Objects.equals(e.key, key)) {
-                e.value = value;
+        int index = hash(key);
+        if (table[index] == null) {
+            table[index] = new LinkedList<>();
+        }
+        
+        for (Entry<K, V> entry : table[index]) {
+            if (entry.getKey().equals(key)) {
+                entry.setValue(value);
                 return;
             }
         }
-        table[idx].add(new Entry<>(key, value));
+        
+        table[index].add(new Entry<>(key, value));
         size++;
     }
-
-    // Возвращает значение по ключу или null, если нет
+    
     public V get(K key) {
-        LinkedList<Entry<K, V>> bucket = table[indexFor(key)];
-        if (bucket == null) return null;
-        for (Entry<K, V> e : bucket) {
-            if (Objects.equals(e.key, key)) return e.value;
-        }
-        return null;
-    }
-
-    // Удаляет запись по ключу и возвращает старое значение или null
-    public V remove(K key) {
-        int idx = indexFor(key);
-        LinkedList<Entry<K, V>> bucket = table[idx];
-        if (bucket == null) return null;
-        var it = bucket.iterator();
-        while (it.hasNext()) {
-            Entry<K, V> e = it.next();
-            if (Objects.equals(e.key, key)) {
-                V old = e.value;
-                it.remove();
-                size--;
-                if (bucket.isEmpty()) table[idx] = null;
-                return old;
+        int index = hash(key);
+        if (table[index] != null) {
+            for (Entry<K, V> entry : table[index]) {
+                if (entry.getKey().equals(key)) {
+                    return entry.getValue();
+                }
             }
         }
         return null;
     }
-
-    public int size() { return size; }
-
-    public boolean isEmpty() { return size == 0; }
-
-    public static void main(String[] args) {
-        HashTable<String, Integer> ht = new HashTable<>();
-        ht.put("one", 1);
-        ht.put("two", 2);
-        System.out.println(ht.get("one"));      // 1
-        ht.put("two", 22);
-        System.out.println(ht.get("two"));      // 22
-        System.out.println(ht.remove("one"));   // 1
-        System.out.println(ht.size());          // 1
-        System.out.println(ht.isEmpty());       // false
+    
+    public void remove(K key) {
+        int index = hash(key);
+        if (table[index] != null) {
+            Iterator<Entry<K, V>> iterator = table[index].iterator();
+            while (iterator.hasNext()) {
+                Entry<K, V> entry = iterator.next();
+                if (entry.getKey().equals(key)) {
+                    iterator.remove();
+                    size--;
+                    return;
+                }
+            }
+        }
+    }
+    
+    public int size() {
+        return size;
+    }
+    
+    public boolean isEmpty() {
+        return size == 0;
     }
 }

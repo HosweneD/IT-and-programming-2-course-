@@ -3,7 +3,7 @@ import java.util.regex.*;
 public class UppercaseFinder {
 
     public static String findAndMarkUppercase(String text) {
-        Pattern pattern = Pattern.compile("([a-z])([A-Z])");
+        Pattern pattern = Pattern.compile("[a-z][A-Z]");
         Matcher matcher = pattern.matcher(text);
 
         StringBuilder result = new StringBuilder();
