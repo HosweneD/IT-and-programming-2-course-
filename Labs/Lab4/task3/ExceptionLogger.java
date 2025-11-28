@@ -1,16 +1,22 @@
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.io.IOException;
 
 public class ExceptionLogger {
-    private static final String logFile = "exceptions.log";
-    
-    public static void logException(Exception ex) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(logFile, true))) {
-            writer.print(new Date() + " " + ex.getClass().getSimpleName() + " " + ex.getMessage());
-        } catch (IOException ioException) {
-            System.err.println("Ошибка в процессе логирования: " + ioException.getMessage());
+    private static final String logFile = "Labs\\Lab4\\task3\\exceptions_logs.txt";
+
+    public static void logException(Exception exception) {
+
+        try (FileWriter fileWriter = new FileWriter(logFile, true); PrintWriter writer = new PrintWriter(fileWriter)) {
+
+            String time = LocalDateTime.now().toString();
+            String exceptionType = exception.getClass().getName();
+
+            writer.println("[" + time + "] " + exceptionType + ": " + exception.getMessage());
+
+        } catch (IOException ex) {
+            System.out.println("Ошибка логирования: " + ex.getMessage());
         }
     }
 }
