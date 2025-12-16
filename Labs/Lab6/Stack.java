@@ -7,6 +7,7 @@ class Stack<T> {
         size = 0;
     }
 
+    // Добавление
     public void push(T element) {
         try {
             data[size] = element;
@@ -16,6 +17,7 @@ class Stack<T> {
         }
     }
 
+    // Удаление
     public T pop() {
         if (size > 0) {
             T element = data[size - 1];
@@ -29,6 +31,7 @@ class Stack<T> {
         }
     }
 
+    // Просмотр
     public T peek() {
         if (size > 0) {
             return data[size - 1];

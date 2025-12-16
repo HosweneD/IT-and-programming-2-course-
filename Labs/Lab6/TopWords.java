@@ -11,7 +11,8 @@ public class TopWords {
         try {
             scanner = new Scanner(file);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Файл не найден: " + e.getMessage());
+            return;
         }
 
         Map<String, Integer> map = new HashMap<>();
@@ -36,9 +37,10 @@ public class TopWords {
             }
         });
 
-        for (int i = 0; i < 10; i++) {
+        int limit = Math.min(10, list.size());
+        for (int i = 0; i < limit; i++) {
             Map.Entry<String, Integer> entry = list.get(i);
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+            System.out.println(i + 1 + "  " + entry.getKey() + " (" + entry.getValue() + ")");
         }
     }
 }

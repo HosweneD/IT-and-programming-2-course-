@@ -104,7 +104,7 @@ class SalesManager {
         sales.printSoldProducts();
 
         // Вывод суммы продаж
-        System.out.println("\nОбщая сумма продаж: " + sales.calculateTotalSales());
+        System.out.println("\nОбщая сумма продаж: " + sales.calculateTotalSales() + " руб.");
 
         // Вывод самого популярного товара
         System.out.println("\nСамый популярный товар: " + sales.findMostPopularProduct());
